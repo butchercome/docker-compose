@@ -46,7 +46,7 @@ services:
     ports:
       - 3000:3000
 
-# 为了能与拧一个docker-compose的项目（es）进行链接,单独使用不需要
+# 为了能与拧一个docker-compose的项目（es）进行链接,单独使用不需要,使用下面配置
 networks:
   elasticsearch_testNet:
     external: true
