@@ -1,0 +1,56 @@
+version: '2'
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.15.1
+    container_name: "prometheus"
+    logging:
+      options:
+        max-size: "1g"
+    networks:
+      - "elasticsearch_testNet"
+    volumes:
+      - ./prometheus/work:/prometheus
+      - ./prometheus/etc:/etc/prometheus
+    ports:
+      - 9999:9090
+    command:
+      - --web.enable-lifecycle
+      - --config.file=/etc/prometheus/prometheus.yml
+  alertmanager:
+    image: prom/alertmanager:v0.20.0
+    container_name: "alertmanager"
+    logging:
+      options:
+        max-size: "1g"
+    networks:
+      - "elasticsearch_testNet"
+    volumes:
+      - ./alertmanager/work:/alertmanager
+      - ./alertmanager/etc:/etc/alertmanager
+    ports:
+      - 9095:9095
+  grafana:
+    image: grafana/grafana:6.1.4
+    container_name: "grafana"
+    logging:
+      options:
+        max-size: "1g"
+    networks:
+      - "elasticsearch_testNet"
+    volumes:
+      - ./grafana/lib:/var/lib/grafana
+      - ./grafana/logs:/var/log/grafana
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: 123456
+    ports:
+      - 3000:3000
+
+# 为了能与拧一个docker-compose的项目（es）进行链接,单独使用不需要
+networks:
+  elasticsearch_testNet:
+    external: true
+
+#networks:
+#  pronetheums:
+#    driver: bridge
