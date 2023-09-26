@@ -1,1 +1,6 @@
 - 通过docker-compose  快速构建，项目所需要的一些组件，测试研发
+- zookeeper
+- redis
+- elasticsearch
+- kafka
+- prometheus+grafana
