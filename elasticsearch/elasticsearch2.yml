@@ -27,11 +27,11 @@ services:
         hard: -1
     volumes:
       # es data路径
-      - "~/docker_data/es01/data:/usr/share/elasticsearch/data"
+      - "./docker_data/es01/data:/usr/share/elasticsearch/data"
       # es log路径
-      - "~/docker_data/es01/logs:/usr/share/elasticsearch/logs"
+      - "./docker_data/es01/logs:/usr/share/elasticsearch/logs"
       # 集成分词插件
-#      - "~/docker_data/es01/plugins/elasticsearch-analysis-ik-7.17.6:/usr/share/elasticsearch/plugins/elasticsearch-analysis-ik-7.17.6"
+#      - "./docker_data/es01/plugins/elasticsearch-analysis-ik-7.17.6:/usr/share/elasticsearch/plugins/elasticsearch-analysis-ik-7.17.6"
     networks:
       testNet:
   es02:
@@ -51,10 +51,10 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - "~/docker_data/es02/data:/usr/share/elasticsearch/data"
-      - "~/docker_data/es02/logs:/usr/share/elasticsearch/logs"
+      - "./docker_data/es02/data:/usr/share/elasticsearch/data"
+      - "./docker_data/es02/logs:/usr/share/elasticsearch/logs"
       # 分词插件直接共享同一个
-#      - "~/docker_data/es01/plugins/elasticsearch-analysis-ik-7.17.6:/usr/share/elasticsearch/plugins/elasticsearch-analysis-ik-7.17.6"
+#      - "./docker_data/es01/plugins/elasticsearch-analysis-ik-7.17.6:/usr/share/elasticsearch/plugins/elasticsearch-analysis-ik-7.17.6"
     networks:
       testNet:
   es03:
@@ -74,9 +74,9 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - "~/docker_data/es03/data:/usr/share/elasticsearch/data"
-      - "~/docker_data/es03/logs:/usr/share/elasticsearch/logs"
-#      - "~/docker_data/es01/plugins/elasticsearch-analysis-ik-7.17.6:/usr/share/elasticsearch/plugins/elasticsearch-analysis-ik-7.17.6"
+      - "./docker_data/es03/data:/usr/share/elasticsearch/data"
+      - "./docker_data/es03/logs:/usr/share/elasticsearch/logs"
+#      - "./docker_data/es01/plugins/elasticsearch-analysis-ik-7.17.6:/usr/share/elasticsearch/plugins/elasticsearch-analysis-ik-7.17.6"
     networks:
       testNet:
   elasticsearch_exporter:
