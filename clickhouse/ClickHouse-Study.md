@@ -64,3 +64,69 @@ data/default/test_fetch/detached
 
 #两者均不会备份元空间数据，需要用户单独备份
 ```
+
+### 服务监控
+1. 系统表
+```sql
+SELECT * FROM system.metrics LIMIT 5
+SELECT event, value FROM system.events LIMIT 5
+SELECT * FROM system.asynchronous_metrics LIMIT 5
+```
+2. 查询日志
+```xml
+
+<query_log>
+    <database>system</database>
+    <table>query_log</table>
+    <!--            <table>query_thread_log</table>-->
+    <!--            <table>part_log</table>-->
+    <!--            <table>text_log</table>-->
+    <!--            <table>metric_log</table>-->
+    <partition_by>toYYYYMM(event_date)</partition_by>
+    <!--            <!—刷新周期&ndash;&gt;-->
+    <flush_interval_milliseconds>7500</flush_interval_milliseconds>
+</query_log>
+       
+```
+```sql
+ SELECT type,concat(substr(query,1,20),'...')query,read_rows,
+        query_duration_ms AS duration FROM system.query_log LIMIT 6
+```
+
+## 建表相关
+```sql
+
+CREATE TABLE IF NOT EXISTS hits_v1_1 ENGINE = Memory AS SELECT * FROM hits_v1
+
+CREATE TABLE partition_v1 ( 
+ ID String,
+ URL String,
+ EventTime Date
+) ENGINE = MergeTree()
+PARTITION BY toYYYYMM(EventTime) 
+ORDER BY ID
+
+INSERT INTO partition_v1 VALUES 
+('A000','www.nauu.com', '2019-05-01'),
+('A001','www.brunce.com', '2019-06-02')
+
+SELECT table,partition,path from system.parts WHERE table = 'partition_v1'
+ALTER TABLE testcol_v1 ADD COLUMN OS String DEFAULT 'mac'
+ALTER TABLE testcol_v1 COMMENT COLUMN ID '主键ID'
+ALTER TABLE testcol_v1 DROP COLUMN URL
+ALTER TABLE testcol_v1 MODIFY COLUMN IP IPv4  #修改字段类型
+RENAME TABLE default.testcol_v1 TO db_test.testcol_v2  #移动数据库只能在单节点内移动
+#复制分区
+ALTER TABLE B REPLACE PARTITION partition_expr FROM A #表结构相同，分区键相同
+# 重置分区列数据
+ALTER TABLE partition_v2 CLEAR COLUMN URL in PARTITION 201908
+#卸载装载分区
+#数据并没有删除而是转移到当期表数据所在目录的detached目录
+# ATTACH装载
+ALTER TABLE partition_v2 DETACH PARTITION 201908
+```
+
+- 数据的删除与修改
+```sql
+ALTER TABLE partition_v2 DELETE WHERE ID = 'A003'
+```

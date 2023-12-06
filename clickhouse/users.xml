@@ -5,8 +5,19 @@
             <max_memory_usage>10000000000</max_memory_usage>
             <use_uncompressed_cache>0</use_uncompressed_cache>
             <load_balancing>in_order</load_balancing>
-            <log_queries>1</log_queries>
+            <log_queries>1</log_queries>  <!--开启querylog-->
         </default>
+        <query_log>
+            <database>system</database>
+            <table>query_log</table>
+<!--            <table>query_thread_log</table>-->
+<!--            <table>part_log</table>-->
+<!--            <table>text_log</table>-->
+<!--            <table>metric_log</table>-->
+            <partition_by>toYYYYMM(event_date)</partition_by>
+<!--            <!—刷新周期&ndash;&gt;-->
+            <flush_interval_milliseconds>7500</flush_interval_milliseconds>
+        </query_log>
     </profiles>
 
     <users>
@@ -40,4 +51,5 @@
             </interval>
         </default>
     </quotas>
+
 </company>
