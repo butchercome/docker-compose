@@ -3,7 +3,7 @@ services:
   mongodb:
     image: "mongo:4.1"
     container_name: "mongo"
-    restart: "always"
+    restart: "on-failure"
     environment:
       - "MONGO_INITDB_ROOT_USERNAME=root"
       - "MONGO_INITDB_ROOT_PASSWORD=passwd"
@@ -16,7 +16,7 @@ services:
   mongo-express:
     image: "mongo-express:0.49"
     container_name: "mongo-express"
-    restart: "always"
+    restart: "on-failure"
     environment:
       - "ME_CONFIG_MONGODB_ADMINUSERNAME=root"
       - "ME_CONFIG_MONGODB_ADMINPASSWORD=passwd"

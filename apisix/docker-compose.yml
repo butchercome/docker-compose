@@ -6,7 +6,7 @@ services:
     image: apache/apisix:2.15.3-centos
     # 官网 2.1-alpine 镜像存在ssl无法启动BUG，此处暂用2.0-alpine替代
     #image: apache/apisix:2.1-alpine
-    restart: always
+    restart: on-failure
     volumes:
       - ./apisix_log:/usr/local/apisix/logs
       - ./apisix_conf/config.yaml:/usr/local/apisix/conf/config.yaml:ro
@@ -25,7 +25,7 @@ services:
     container_name: etcd
     image: bitnami/etcd:3.5.12
     user: root
-    restart: always
+    restart: on-failure
     volumes:
       - ./etcd_data:/etcd_data
     environment:

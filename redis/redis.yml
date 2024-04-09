@@ -2,7 +2,7 @@ version: '3'
 services:
   redis-server:
     image: redis:6.2
-    restart: "always"
+    restart: "on-failure"
     container_name: redis-server
     #platform: linux/amd64
     ports:
@@ -15,7 +15,7 @@ services:
 
   redis-cli:
     image: redis:6.2
-    restart: "always"
+    restart: "on-failure"
     container_name: redis-cli
     command: bash -c 'redis-cli -h redis-server -p 6379 ping; while true; do sleep 20220101; done'
     privileged: true

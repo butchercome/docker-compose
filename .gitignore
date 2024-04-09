@@ -33,3 +33,7 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+/mongodb/mongodb-db/
+/apisix/etcd_data/
+
+
